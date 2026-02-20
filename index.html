@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS MOCK DATA ENGINE</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f0f; color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: #1a1a1a; padding: 30px; border-radius: 12px; border: 1px solid #00ff7f; box-shadow: 0 0 20px rgba(0, 255, 127, 0.2); width: 450px; text-align: center; }
+        h2 { color: #00ff7f; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        input { background: #262626; border: 1px solid #444; color: white; padding: 10px; border-radius: 5px; width: 80%; margin-bottom: 20px; text-align: center; outline: none; }
+        input:focus { border-color: #00ff7f; }
+        button { background: #00ff7f; color: #000; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 85%; }
+        button:hover { background: #00cc66; transform: scale(1.02); }
+        .output-area { margin-top: 25px; max-height: 300px; overflow-y: auto; text-align: left; padding: 10px; background: #050505; border-radius: 5px; border: 1px solid #333; }
+        .profile-entry { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; font-family: 'Courier New', Courier, monospace; font-size: 13px; }
+        .profile-entry span { color: #00ff7f; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Profile Generator</h2>
+    <p>How many mock profiles do you need?</p>
+    <input type="number" id="profileCount" placeholder="Enter amount (e.g. 10)" min="1" max="100">
+    <br>
+    <button onclick="generateMultiple()">Generate Profiles</button>
+
+    <div class="output-area" id="output">
+        <p style="color: #666;">Entries will appear here...</p>
+    </div>
+</div>
+
+<script>
+    function generateString(length, charset) {
+        let res = "";
+        for (let i = 0; i < length; i++) {
+            res += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        return res;
+    }
+
+    function generateMultiple() {
+        const count = document.getElementById('profileCount').value;
+        const output = document.getElementById('output');
+        const userChars = "abcdefghijklmnopqrstuvwxyz0123456789";
+        const passChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+
+        if (!count || count <= 0) {
+            alert("Please enter a valid number!");
+            return;
+        }
+
+        output.innerHTML = ""; // Clear old results
+
+        for (let i = 1; i <= count; i++) {
+            let email = generateString(8, userChars) + "@example.com";
+            let pass = generateString(14, passChars);
+
+            let entry = document.createElement('div');
+            entry.className = 'profile-entry';
+            entry.innerHTML = `
+                <strong>Entry #${i}</strong><br>
+                Email: <span>${email}</span><br>
+                Pass: <span>${pass}</span>
+            `;
+            output.appendChild(entry);
+        }
+    }
+</script>
+
+</body>
+</html>
